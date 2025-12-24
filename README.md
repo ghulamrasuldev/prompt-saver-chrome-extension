@@ -13,6 +13,23 @@ A Chrome extension that adds a beautiful sidebar to ChatGPT for saving and manag
 - 🎯 **Quick Save Button**: Save prompts directly from ChatGPT's input
 - 🔄 **Toggle Sidebar**: Collapse/expand sidebar as needed
 
+## Download
+
+### Quick Install with Pre-built Extension
+
+If you want to install the extension quickly without downloading the full source code:
+
+1. **Download the CRX file**:
+   - Visit the [GitHub repository release page](https://github.com/ghulamrasuldev/prompt-saver-chrome-extension/blob/d02a34ef2b98bb39958544bc2cd47f1908363711/prompt-saver-chrome-extension.crx)
+   - Click the **"Download raw file"** button (or right-click and select "Save link as...")
+   - Save `prompt-saver-chrome-extension.crx` to your computer
+
+2. **Install the CRX file in Chrome**:
+   - Open Chrome and go to `chrome://extensions/`
+   - Drag and drop the `.crx` file onto the page
+   - Click **"Add extension"** when prompted
+   - The extension is now ready to use!
+
 ## Installation
 
 ### Method 1: Load as Unpacked Extension (For Development)
