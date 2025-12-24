@@ -8,8 +8,42 @@ class PromptSaver {
 
   async init() {
     await this.loadPrompts();
-    this.injectUI();
-    this.attachEventListeners();
+    this.waitForChatGPT();
+  }
+
+  waitForChatGPT() {
+    // Wait for ChatGPT UI to be fully loaded
+    const checkInterval = setInterval(() => {
+      const mainContainer = document.querySelector('main') || document.querySelector('[role="main"]');
+      if (mainContainer && !document.getElementById('prompt-saver-sidebar')) {
+        clearInterval(checkInterval);
+        this.injectUI();
+        this.attachEventListeners();
+        this.observeNavigation();
+      }
+    }, 500);
+
+    // Clear interval after 10 seconds if not found
+    setTimeout(() => clearInterval(checkInterval), 10000);
+  }
+
+  observeNavigation() {
+    // Monitor URL changes in SPA
+    let lastUrl = location.href;
+    new MutationObserver(() => {
+      const url = location.href;
+      if (url !== lastUrl) {
+        lastUrl = url;
+        this.handleNavigation();
+      }
+    }).observe(document, { subtree: true, childList: true });
+  }
+
+  handleNavigation() {
+    // Re-inject UI if it was removed during navigation
+    if (!document.getElementById('prompt-saver-sidebar')) {
+      this.injectUI();
+    }
   }
 
   async loadPrompts() {
@@ -366,10 +400,16 @@ class PromptSaver {
 }
 
 // Initialize the extension
+let promptSaverInstance = null;
+
+function initExtension() {
+  if (!promptSaverInstance) {
+    promptSaverInstance = new PromptSaver();
+  }
+}
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    new PromptSaver();
-  });
+  document.addEventListener("DOMContentLoaded", initExtension);
 } else {
-  new PromptSaver();
+  initExtension();
 }

@@ -20,6 +20,7 @@ A Chrome extension that adds a beautiful sidebar to ChatGPT for saving and manag
 If you want to install the extension quickly without downloading the full source code:
 
 1. **Download the CRX file**:
+
    - Visit the [GitHub repository release page](https://github.com/ghulamrasuldev/prompt-saver-chrome-extension/blob/d02a34ef2b98bb39958544bc2cd47f1908363711/prompt-saver-chrome-extension.crx)
    - Click the **"Download raw file"** button (or right-click and select "Save link as...")
    - Save `prompt-saver-chrome-extension.crx` to your computer
@@ -37,13 +38,16 @@ If you want to install the extension quickly without downloading the full source
 1. **Download the extension files** to a folder on your computer
 
 2. **Open Chrome Extensions page**:
+
    - Go to `chrome://extensions/`
    - Or click the puzzle icon → "Manage Extensions"
 
 3. **Enable Developer Mode**:
+
    - Toggle the "Developer mode" switch in the top right
 
 4. **Load the extension**:
+
    - Click "Load unpacked"
    - Select the `chatgpt-prompt-saver` folder
 
@@ -62,16 +66,19 @@ If you want to install the extension quickly without downloading the full source
 ### Saving Prompts
 
 **Option 1: Manual Save**
+
 1. Type or paste your prompt in the sidebar's text area
 2. (Optional) Add a custom title
 3. Click "Save Prompt"
 
 **Option 2: Quick Save**
+
 1. Type your prompt in ChatGPT's input
 2. Click the bookmark icon that appears near the send button
 3. The prompt is instantly saved
 
 **Option 3: Save Current Input**
+
 1. Type your prompt in ChatGPT's input
 2. Click "Save Current Input" in the sidebar
 3. Optionally add a title when prompted
@@ -109,6 +116,7 @@ chatgpt-prompt-saver/
 ## Creating Icons
 
 You'll need to create three icon sizes:
+
 - 16x16 pixels (`icon16.png`)
 - 48x48 pixels (`icon48.png`)
 - 128x128 pixels (`icon128.png`)
@@ -116,7 +124,9 @@ You'll need to create three icon sizes:
 Use any image editor or online icon generator. A simple bookmark icon works well!
 
 ### Quick Icon Solution (Temporary)
+
 For testing, you can create a simple colored square:
+
 1. Open any image editor
 2. Create a new image (16x16, 48x48, or 128x128)
 3. Fill with a color (e.g., #10a37f - ChatGPT green)
@@ -129,6 +139,7 @@ For testing, you can create a simple colored square:
 ## Data Storage
 
 All prompts are stored locally using Chrome's `storage.local` API:
+
 - Data persists across browser sessions
 - Not synced across devices
 - Private to your browser
@@ -137,16 +148,19 @@ All prompts are stored locally using Chrome's `storage.local` API:
 ## Troubleshooting
 
 ### Extension not working on ChatGPT
+
 - Make sure you're on `chatgpt.com` or `chat.openai.com`
 - Refresh the ChatGPT page after installing
 - Check if the extension is enabled in `chrome://extensions/`
 
 ### Sidebar not appearing
+
 - Look for the sidebar on the right side of the page
 - Try toggling it with the arrow button
 - Check browser console for errors (F12)
 
 ### Prompts not saving
+
 - Check if the extension has storage permissions
 - Try exporting existing prompts as backup
 - Clear and reinstall the extension if needed
@@ -161,6 +175,7 @@ All prompts are stored locally using Chrome's `storage.local` API:
 ## Customization
 
 You can customize the extension by editing:
+
 - **styles.css**: Change colors, sizes, fonts
 - **content.js**: Modify behavior and features
 - **manifest.json**: Update permissions and metadata
@@ -168,6 +183,7 @@ You can customize the extension by editing:
 ## Contributing
 
 Feel free to:
+
 - Report bugs
 - Suggest features
 - Submit improvements
@@ -180,6 +196,7 @@ Free to use and modify for personal and commercial purposes.
 ## Support
 
 For issues or questions:
+
 1. Check the Troubleshooting section
 2. Review the code comments
 3. Open the browser console for error messages
