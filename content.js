@@ -43,6 +43,12 @@ class PromptSaver {
     // Re-inject UI if it was removed during navigation
     if (!document.getElementById('prompt-saver-sidebar')) {
       this.injectUI();
+      this.attachEventListeners();
+    }
+    // Also check for toggle button
+    if (!document.getElementById('prompt-saver-toggle')) {
+      this.injectUI();
+      this.attachEventListeners();
     }
   }
 
@@ -65,6 +71,11 @@ class PromptSaver {
   }
 
   injectUI() {
+    // Remove existing elements to prevent duplicates
+    document.getElementById("prompt-modal")?.remove();
+    document.getElementById("prompt-saver-toggle")?.remove();
+    document.getElementById("prompt-saver-sidebar")?.remove();
+
     // Create modal
     const modal = document.createElement("div");
     modal.id = "prompt-modal";
@@ -87,17 +98,37 @@ class PromptSaver {
     `;
     document.body.appendChild(modal);
 
-    // Create sidebar (always visible)
+    // Create toggle button (always visible)
+    const toggleBtn = document.createElement("button");
+    toggleBtn.id = "prompt-saver-toggle";
+    toggleBtn.className = "prompt-saver-toggle";
+    toggleBtn.title = "Saved Prompts";
+    toggleBtn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+      </svg>
+    `;
+    document.body.appendChild(toggleBtn);
+
+    // Create sidebar (hidden by default)
     const sidebar = document.createElement("div");
     sidebar.id = "prompt-saver-sidebar";
     sidebar.className = "prompt-saver-sidebar";
     sidebar.innerHTML = `
       <div class="sidebar-header">
-        <div class="sidebar-title">
-          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-          </svg>
-          <span>Saved Prompts</span>
+        <div class="sidebar-title-row">
+          <div class="sidebar-title">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Saved Prompts</span>
+          </div>
+          <button id="sidebar-close-btn" class="sidebar-close-btn" title="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
         <button id="save-prompt-btn" class="save-prompt-btn" title="Save new prompt">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -117,24 +148,47 @@ class PromptSaver {
   }
 
   attachEventListeners() {
+    // Toggle sidebar button
+    const toggleBtn = document.getElementById("prompt-saver-toggle");
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleSidebar();
+      });
+    }
+
+    // Close sidebar button
+    const closeBtn = document.getElementById("sidebar-close-btn");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closeSidebar();
+      });
+    }
+
     // Save prompt button
-    document.getElementById("save-prompt-btn").addEventListener("click", () => {
-      this.openModal();
-    });
+    const saveBtn = document.getElementById("save-prompt-btn");
+    if (saveBtn) {
+      saveBtn.addEventListener("click", () => {
+        this.openModal();
+      });
+    }
 
     // Modal controls
-    document.getElementById("modal-cancel").addEventListener("click", () => {
+    document.getElementById("modal-cancel")?.addEventListener("click", () => {
       this.closeModal();
     });
 
-    document.getElementById("modal-save").addEventListener("click", () => {
+    document.getElementById("modal-save")?.addEventListener("click", () => {
       this.saveFromModal();
     });
 
     // Load current ChatGPT input
     document
       .getElementById("modal-load-current")
-      .addEventListener("click", () => {
+      ?.addEventListener("click", () => {
         const currentText = this.getCurrentInput();
         if (currentText) {
           document.getElementById("modal-prompt-text").value = currentText;
@@ -145,18 +199,46 @@ class PromptSaver {
       });
 
     // Click outside modal to close
-    document.getElementById("prompt-modal").addEventListener("click", (e) => {
+    document.getElementById("prompt-modal")?.addEventListener("click", (e) => {
       if (e.target.id === "prompt-modal") {
         this.closeModal();
       }
     });
 
-    // ESC key to close modal
+    // ESC key to close modal and sidebar
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         this.closeModal();
+        this.closeSidebar();
       }
     });
+  }
+
+  toggleSidebar() {
+    const sidebar = document.getElementById("prompt-saver-sidebar");
+    const toggleBtn = document.getElementById("prompt-saver-toggle");
+    if (sidebar && toggleBtn) {
+      sidebar.classList.toggle("open");
+      toggleBtn.classList.toggle("hidden");
+    }
+  }
+
+  openSidebar() {
+    const sidebar = document.getElementById("prompt-saver-sidebar");
+    const toggleBtn = document.getElementById("prompt-saver-toggle");
+    if (sidebar && toggleBtn) {
+      sidebar.classList.add("open");
+      toggleBtn.classList.add("hidden");
+    }
+  }
+
+  closeSidebar() {
+    const sidebar = document.getElementById("prompt-saver-sidebar");
+    const toggleBtn = document.getElementById("prompt-saver-toggle");
+    if (sidebar && toggleBtn) {
+      sidebar.classList.remove("open");
+      toggleBtn.classList.remove("hidden");
+    }
   }
 
   openModal(prefillText = "") {

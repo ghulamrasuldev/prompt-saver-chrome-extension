@@ -1,9 +1,45 @@
 /* ChatGPT Prompt Saver - Dark Sidebar */
 
+/* Toggle Button */
+.prompt-saver-toggle {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: #212121;
+  border: 1px solid #fff;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: all 0.2s;
+}
+
+.prompt-saver-toggle:hover {
+  background: #2a2a2a;
+  width: 44px;
+}
+
+.prompt-saver-toggle svg {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+}
+
+.prompt-saver-toggle.hidden {
+  display: none;
+}
+
+/* Sidebar */
 .prompt-saver-sidebar {
   position: fixed;
   top: 0;
-  right: 0;
+  right: -320px;
   width: 320px;
   height: 100vh;
   background: #212121;
@@ -13,6 +49,11 @@
   flex-direction: column;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   overflow: hidden;
+  transition: right 0.3s ease;
+}
+
+.prompt-saver-sidebar.open {
+  right: 0;
 }
 
 /* Header */
@@ -26,6 +67,12 @@
   flex-shrink: 0;
 }
 
+.sidebar-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .sidebar-title {
   display: flex;
   align-items: center;
@@ -33,6 +80,32 @@
   color: #ececec;
   font-size: 14px;
   font-weight: 600;
+}
+
+.sidebar-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.sidebar-close-btn:hover {
+  background: #404040;
+}
+
+.sidebar-close-btn svg {
+  width: 18px;
+  height: 18px;
+  color: #b4b4b4;
+}
+
+.sidebar-close-btn:hover svg {
+  color: #fff;
 }
 
 .sidebar-icon {
@@ -339,7 +412,7 @@
 .prompt-saver-toast {
   position: fixed;
   bottom: 30px;
-  right: 350px;
+  right: 30px;
   background: #2a2a2a;
   color: #fff;
   border: 1px solid #404040;
@@ -354,6 +427,10 @@
   transition: all 0.3s ease;
 }
 
+.prompt-saver-sidebar.open ~ .prompt-saver-toast {
+  right: 350px;
+}
+
 .prompt-saver-toast.show {
   opacity: 1;
   transform: translateY(0);
@@ -363,9 +440,10 @@
 @media (max-width: 768px) {
   .prompt-saver-sidebar {
     width: 280px;
+    right: -280px;
   }
   
-  .prompt-saver-toast {
+  .prompt-saver-sidebar.open ~ .prompt-saver-toast {
     right: 310px;
   }
 }
